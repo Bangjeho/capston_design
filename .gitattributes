@@ -1,1 +1,2 @@
 RandomForest_seoul_model filter=lfs diff=lfs merge=lfs -text
+RandomForest_tokyo_model filter=lfs diff=lfs merge=lfs -text
