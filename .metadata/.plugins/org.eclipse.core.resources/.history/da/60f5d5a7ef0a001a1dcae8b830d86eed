@@ -1,0 +1,99 @@
+<!doctype html>
+<!-- The DOCTYPE declaration above will set the     -->
+<!-- browser's rendering engine into                -->
+<!-- "Standards Mode". Replacing this declaration   -->
+<!-- with a "Quirks Mode" doctype is not supported. -->
+
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+    <!--                                                               -->
+    <!-- Consider inlining CSS to reduce the number of requested files -->
+    <!--                                                               -->
+    <link type="text/css" rel="stylesheet" href="Test.css">
+
+    <!--                                           -->
+    <!-- Any title is fine                         -->
+    <!--                                           -->
+    <title>Web Application Starter Project</title>
+    
+    <!--                                           -->
+    <!-- This script loads your compiled module.   -->
+    <!-- If you add any GWT meta tags, they must   -->
+    <!-- be added before this line.                -->
+    <!--                                           -->
+    <script type="text/javascript" language="javascript" src="test/test.nocache.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDlxJFBN0V9Dalc24YTwRuTIG0G49dsHZk&callback=initMap"async defer></script>
+    <script type="text/javascript">
+    function initMap(latitude, longitude) {
+    	var map;
+    	var geometry = {lat: latitude, lng: longitude};
+    	map = new google.maps.Map(document.getElementById('map'), {
+        center: geometry,
+        zoom: 12
+        });
+        var marker = new google.maps.Marker({
+            position: geometry,
+            map: map,
+            title: 'Hello World!'
+        });
+        
+
+        var icons = {
+        price_one_fif: {
+            icon: "image/yellopoint.png"
+          },
+        price_fif_oneh: {
+            icon: "image/cyonpoint.png"
+        },
+        price_oneh_onehf: {
+            icon: "image/bluepoint.png"
+        },
+        price_onehf_twoh: {
+            icon: "image/peoplepoint.png"
+        },
+        price_twoh_fih: {
+            icon: "image/pinkpoint.png"
+        },
+        price_fih_ones: {
+            icon: "image/orrangepoint.png"
+        }
+        };
+        var test = [[37.5397092,126.9438513],[37.5305535,126.9634576]];
+
+        for(int i ; i <test.length; i++){
+        	var features = [
+                       	 {
+                         	 position: new google.maps.LatLng(test[i]),
+                         	 type: 'price_one_fif'
+                        	}
+                       	 ];
+        
+        	var marker = new google.maps.Marker({
+        		position : features[0].position,
+        		icon: icons[features[0].type].icon,
+        		map : map
+        });
+    };
+    }
+    </script>
+  </head>
+
+  <!--                                           -->
+  <!-- The body can have arbitrary html, or      -->
+  <!-- you can leave the body empty if you want  -->
+  <!-- to create a completely dynamic UI.        -->
+  <!--                                           -->
+  <body>
+
+    <!-- RECOMMENDED if your web app will not function without JavaScript enabled -->
+    <noscript>
+      <div style="width: 22em; position: absolute; left: 50%; margin-left: -11em; color: red; background-color: white; border: 1px solid red; padding: 4px; font-family: sans-serif">
+        Your web browser must have JavaScript enabled
+        in order for this application to display correctly.
+      </div>
+    </noscript>
+    <div id = "main" align = "center"></div>
+  </body>
+</html>
