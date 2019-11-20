@@ -1,0 +1,99 @@
+package kr.ac.sunmoon.client;
+
+import java.util.ArrayList;
+
+import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
+
+import kr.ac.sunmoon.shared.RoomInfo;
+
+/**
+ * Entry point classes define <code>onModuleLoad()</code>.
+ */
+public class Test implements EntryPoint 
+{
+	 private native void initMapFromGWT(double lat, double lng, double[][] paramGeos, String[] group, int[] price, int[] minstay, int[] accomodate, String[] roomtype)
+	   /*-{
+	      $wnd.initMap(lat, lng, paramGeos, group, price, minstay, accomodate,roomtype);
+	   }-*/;
+
+	public void onModuleLoad() 
+	{
+		VerticalPanel vp = new VerticalPanel();
+		vp.setWidth("100%");
+		RootPanel.get("main").add(vp);
+		Button btnMap = new Button("click");
+		vp.add(btnMap);
+		btnMap.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				ServiceAsync service = GWT.create(Service.class);
+				service.getRoomInfo(new AsyncCallback<ArrayList<RoomInfo>>() {
+					
+					@Override
+					public void onSuccess(ArrayList<RoomInfo> result) {
+						// TODO Auto-generated method stub
+						String room;
+						String[] group = new String[result.size()];
+						int[] accomodate = new int[result.size()];
+						int[] minstay = new int[result.size()];
+						int[] price = new int[result.size()];
+						String[] roomtype = new String[result.size()];
+						double[][] paramGeos = new double[result.size()][];
+						
+						for(int i=0; i<paramGeos.length; i++)
+						{
+							if(result.get(i).isApt()){
+								boolean apt = result.get(i).isApt();
+								room = String.valueOf(apt);
+								room = room.replace(room, "Entire home/apt");
+								roomtype[i] = room;
+							}
+							else if(result.get(i).isPrivate()){
+								
+								boolean privat = result.get(i).isPrivate();
+								room = String.valueOf(privat);
+								room = room.replace(room, "Private room");
+								roomtype[i] = room;
+							}							
+							else if(result.get(i).isShared()){
+								boolean share = result.get(i).isShared();
+								room = String.valueOf(share);
+								room = room.replace(room, "Shared room");
+								roomtype[i] = room;
+							}
+							
+							accomodate[i] = result.get(i).getAccommodates();
+							minstay[i] = result.get(i).getMinstay();
+							price[i] = result.get(i).getPrice();
+							group[i] = result.get(i).getGroup();
+							paramGeos[i] = new double[2];
+							paramGeos[i][0] = result.get(i).getLatitude();
+							paramGeos[i][1] = result.get(i).getLongitude();
+						}
+						Window.alert(roomtype + "");
+						initMapFromGWT(37.5536,126.9696, paramGeos,group,price,minstay,accomodate,roomtype);
+					}
+					
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						
+					}
+				});
+			}
+		});
+	    HTML html = new HTML("<div id='map' style ='width :100%;height:500px;'></div>");
+	    vp.add(html);
+	}
+}

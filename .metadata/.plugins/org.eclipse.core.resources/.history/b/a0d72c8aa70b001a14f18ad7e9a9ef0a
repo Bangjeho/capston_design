@@ -1,0 +1,51 @@
+function initMap(latitude, longitude, paramGeos, group) {
+	var geometry = {
+		lat: latitude,
+		lng: longitude
+	};
+	var map = new google.maps.Map(document.getElementById('map'), {
+		center: geometry,
+		zoom: 18
+	});
+	var groups = group;
+	var geos = paramGeos;
+	var marker = new google.maps.Marker({
+		icon : 'image/mainmarker'
+		position: geometry,
+		zIndex: 4000,
+		map: map,
+		title: "hello!"
+	});
+
+	setMarkers(map, geos, groups);
+
+}
+
+
+function setMarkers(map, geos, groups) {
+	var icons = {
+		group_1: {
+			icon: 'image/marker1.png',
+		},
+		group_2: {
+			icon: 'image/marker2.png',
+		},
+		group_3: {
+			icon: 'image/marker3.png',
+		}
+	};
+
+
+	for (var i = 0; i < geos.length; i++) {
+		var geo = geos[i];
+		var group = groups[i];
+		var marker = new google.maps.Marker({
+			position: {
+				lat: geo[0],
+				lng: geo[1]
+			},
+			map: map,
+			icon: icons[group].icon
+		});
+	}
+}

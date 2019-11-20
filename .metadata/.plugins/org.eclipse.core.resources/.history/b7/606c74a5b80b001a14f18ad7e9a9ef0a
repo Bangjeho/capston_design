@@ -1,0 +1,75 @@
+
+function initMap(latitude, longitude, paramGeos, group, price, minstay, accomodate,roomtype) {
+	zIndex = paramGeos.length;
+	var geometry = {
+		lat: latitude,
+		lng: longitude
+	};
+	var map = new google.maps.Map(document.getElementById('map'), {
+		center: geometry,
+		zoom: 12
+	});
+	var roomtypes = roomtype;
+	var groups = group;
+	var geos = paramGeos;
+	var prices = price;
+	var minstays = minstay;
+	var accomodates = accomodate;
+
+	setMarkers(map, geos, groups, prices, minstays, accomodates,roomtypes);
+	
+	var pinIcon = new google.maps.MarkerImage(
+		      "image/mainmarker.png",
+		      null, /* size is determined at runtime */
+		      null, /* origin is 0,0 */
+		      null, /* anchor is bottom center of the scaled image */
+		      new google.maps.Size(60, 60));
+	
+	 var marker = new google.maps.Marker({
+	      position: geometry,
+	      map: map,
+	      title: 'hello',
+	      zIndex: zIndex,
+	      icon: pinIcon,
+
+	   });
+
+
+
+}
+
+
+function setMarkers(map, geos, groups, prices, minstays, accomodates,roomtypes) {
+	<%@ page import="java.text.*" %>
+	<% NumberFormat nf = NumberFormat.getNumberInstance(); %>
+	var icons = {
+		group_1: {
+			icon: 'image/marker1.png',
+		},
+		group_2: {
+			icon: 'image/marker2.png',
+		},
+		group_3: {
+			icon: 'image/marker3.png',
+		}
+	};
+
+
+	for (var i = 0; i < geos.length; i++) {
+		var geo = geos[i];
+		var roomtype = roomtypes[i]
+		var group = groups[i];
+		var price = prices[i];
+		var minstay = minstays[i];
+		var accomodate = accomodates[i];
+		var marker = new google.maps.Marker({
+			position: {
+				lat: geo[0],
+				lng: geo[1]
+			},
+			map: map,
+			title: "  ㆍPrice : "+<%=nf.format(price)%>+"$" + "\nㆍMinstay: "+ minstay +"\nㆍAccomodate: "+accomodate +"\nㆍRoomtype: " + roomtype,
+			icon: icons[group].icon
+		});
+	}
+}

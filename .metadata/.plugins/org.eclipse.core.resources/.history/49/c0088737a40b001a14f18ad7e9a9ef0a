@@ -1,0 +1,64 @@
+package kr.ac.sunmoon.server;
+
+import java.io.FileReader;
+import java.util.ArrayList;
+
+import com.opencsv.CSVReader;
+
+import kr.ac.sunmoon.shared.RoomInfo;
+
+public class Test {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		String filePath = this.getServletContext().getRealPath("/") + "\\roomInfo.csv";
+		ArrayList<RoomInfo> roomInfos = new ArrayList<RoomInfo>();
+		try 
+		{ 
+	        FileReader filereader = new FileReader(filePath); 
+	        CSVReader csvReader = new CSVReader(filereader); 
+	        String[] record; 
+	        boolean isFirst = true;
+	        while((record = csvReader.readNext()) != null) 
+	        { 
+	        	if(isFirst)
+	        		isFirst = false;
+	        	else
+	        	{
+	        		RoomInfo roomInfo = new RoomInfo();
+	        		roomInfos.add(roomInfo);
+	        		roomInfo.setLatitude(Double.parseDouble(record[0]));
+	        		roomInfo.setLongitude(Double.parseDouble(record[1]));
+	        		roomInfo.setGroup(record[2]);
+	        		roomInfo.setPrice(Integer.parseInt(record[3]));
+	        		roomInfo.setBedrooms(Integer.parseInt(record[4]));
+	        		System.out.println(record[5]);
+	        		roomInfo.setBathrooms(Integer.parseInt(record[5]));
+	        		String type = record[6];
+	        		if(type.equals("0"))
+	        			roomInfo.setApt(false);
+	        		else
+	        			roomInfo.setApt(true);
+	        		type = record[7];
+	        		if(type.equals("0"))
+	        			roomInfo.setPrivate(false);
+	        		else
+	        			roomInfo.setPrivate(true);
+	        		type = record[8];
+	        		if(type.equals("0"))
+	        			roomInfo.setShared(false);
+	        		else
+	        			roomInfo.setShared(true);
+	        		roomInfo.setAccommodates(Integer.parseInt(record[9]));
+	        		roomInfo.setMinstay(Integer.parseInt(record[10]));
+	        	}
+	        } 
+	        csvReader.close();
+	    } 
+	    catch (Exception e) { 
+	        e.printStackTrace();
+	        
+	    } 
+	}
+
+}
