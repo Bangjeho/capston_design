@@ -1,0 +1,5 @@
+package kr.ac.sunmoon.shared;
+
+public class Location {
+
+}

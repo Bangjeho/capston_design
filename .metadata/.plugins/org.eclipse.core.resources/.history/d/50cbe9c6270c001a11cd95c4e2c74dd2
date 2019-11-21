@@ -1,0 +1,17 @@
+/**
+ * 
+ */
+
+function codeAddress(hostaddress) {
+	var geocoder = new google.maps.Geocoder();
+	var host = hostaddress
+    var address = document.getElementById('address').value;
+    geocoder.geocode( { 'address': hostaddress}, function(results, status) {
+      if (status == 'OK') {
+        map.setCenter(results[0].geometry.location);
+      } else {
+        alert('Geocode was not successful for the following reason: ' + status);
+      }
+    });
+    
+  }
