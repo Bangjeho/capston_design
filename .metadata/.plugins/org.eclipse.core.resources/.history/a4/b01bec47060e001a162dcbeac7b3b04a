@@ -1,0 +1,17 @@
+package kr.ac.sunmoon.client;
+
+import java.util.ArrayList;
+
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.RemoteService;
+import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+
+import kr.ac.sunmoon.shared.Location;
+import kr.ac.sunmoon.shared.RoomInfo;
+
+@RemoteServiceRelativePath("service")
+public interface Service extends RemoteService
+{
+	public ArrayList<RoomInfo> getRoomInfo();
+	public ArrayList<Location> getLocation(String apt, String privat, String share, String countBedroom, String countbathroom, String countAccomodate, String countMinstay, String address);
+}

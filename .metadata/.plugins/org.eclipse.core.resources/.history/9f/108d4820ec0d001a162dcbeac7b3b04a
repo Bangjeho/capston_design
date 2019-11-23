@@ -1,0 +1,13 @@
+package kr.ac.sunmoon.page;
+
+
+import com.google.gwt.user.client.ui.VerticalPanel;
+
+public class AirBnB_host extends VerticalPanel{
+	public AirBnB_host(){
+		super();
+	{
+
+		}
+	}
+}

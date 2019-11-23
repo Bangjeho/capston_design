@@ -1,0 +1,87 @@
+package kr.ac.sunmoon.client;
+
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PushButton;
+import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
+
+import kr.ac.sunmoon.client.page.AirBnB_host;
+
+
+public class TopPanel extends HorizontalPanel{
+	private void addMenuItem(String text)
+	{
+		Label lblMenuItem = new Label(text);
+		lblMenuItem.addStyleName("lblMenuItem");
+		this.add(lblMenuItem);
+	}
+	public TopPanel()
+	{
+		super();
+		
+		
+		HorizontalPanel hpTop = new HorizontalPanel();
+		this.addStyleName("hpTop");
+		this.setVerticalAlignment(VerticalPanel.ALIGN_MIDDLE);
+		this.add(hpTop);
+		
+		//로고이미지
+		Image imgAirBnB = new Image();
+		imgAirBnB.setUrl("image/airbnb.png");
+		imgAirBnB.setWidth("128px");
+		this.add(imgAirBnB);
+		
+		//검색창
+		HorizontalPanel hpSearch = new HorizontalPanel();
+		hpSearch.addStyleName("hpSearch");
+		this.add(hpSearch);
+		
+		//돋보기사진
+//		Image imgSearch = new Image();
+//		imgSearch.setUrl("image/search.png");
+//		imgSearch.setWidth("20px");
+//		hpSearch.add(imgSearch);
+		
+//		TextBox txtSearch = new TextBox();
+//		txtSearch.setStyleName("txtSearch");
+//		hpSearch.add(txtSearch);
+		
+		Label lblMenuItem = new Label();
+		lblMenuItem.addStyleName("lblMenuItem");
+		this.add(lblMenuItem);
+		
+		//PushButton 추가
+		PushButton AddAccommodation = new PushButton("숙소 추가");
+		PushButton Host = new PushButton("호스트");
+		PushButton StorageList = new PushButton("저장 목록");
+		PushButton Travel = new PushButton("여행");
+		PushButton Message = new PushButton("메시지");
+		PushButton Help = new PushButton("도움말");
+		
+		//Host버튼을 눌렀을때 AirBnB_host 패널로 이동
+		Host.addClickHandler(new ClickHandler()
+		{
+
+			@Override
+			public void onClick(ClickEvent event)
+			{
+
+				RootPanel.get("main").remove(0);
+				RootPanel.get("main").add((IsWidget) new AirBnB_host());
+			}
+		});
+		
+		this.add(AddAccommodation);
+		this.add(Host);
+		this.add(StorageList);
+		this.add(Travel);
+		this.add(Message);
+		this.add(Help);
+	}
+
+}

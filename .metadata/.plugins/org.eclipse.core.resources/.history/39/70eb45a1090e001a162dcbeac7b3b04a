@@ -1,0 +1,17 @@
+package kr.ac.sunmoon.client;
+
+import java.util.ArrayList;
+
+import com.google.gwt.user.client.rpc.AsyncCallback;
+
+import kr.ac.sunmoon.shared.Location;
+import kr.ac.sunmoon.shared.RoomInfo;
+
+public interface ServiceAsync {
+
+	void getRoomInfo(AsyncCallback<ArrayList<RoomInfo>> callback);
+	void getLocation(String apt, String privat, String share, String countBedroom,
+			String countbathroom, String countAccomodate,
+			String countMinstay, String address, AsyncCallback<ArrayList<Location>> callback);
+
+}

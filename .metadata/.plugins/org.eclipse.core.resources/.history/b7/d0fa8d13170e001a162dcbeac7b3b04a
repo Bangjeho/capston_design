@@ -1,0 +1,121 @@
+package kr.ac.sunmoon.server;
+
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.apache.http.impl.client.HttpClientBuilder;
+
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import com.opencsv.CSVReader;
+
+import kr.ac.sunmoon.client.Service;
+import kr.ac.sunmoon.shared.Location;
+import kr.ac.sunmoon.shared.RoomInfo;
+
+public class ServiceImpl  extends RemoteServiceServlet implements Service
+{
+	@Override
+	public ArrayList<RoomInfo> getRoomInfo() 
+	{
+		
+		String filePath = this.getServletContext().getRealPath("/") + "\\roomInfo.csv";
+		ArrayList<RoomInfo> roomInfos = new ArrayList<RoomInfo>();
+		try 
+		{ 
+	        FileReader filereader = new FileReader(filePath); 
+	        CSVReader csvReader = new CSVReader(filereader); 
+	        String[] record; 
+	        boolean isFirst = true;
+	        while((record = csvReader.readNext()) != null) 
+	        { 
+	        	if(isFirst)
+	        		isFirst = false;
+	        	else
+	        	{
+	        		RoomInfo roomInfo = new RoomInfo();
+	        		roomInfos.add(roomInfo);
+	        		roomInfo.setLatitude(Double.parseDouble(record[0]));
+	        		roomInfo.setLongitude(Double.parseDouble(record[1]));
+	        		roomInfo.setGroup(record[2]);
+	        		roomInfo.setPrice(Integer.parseInt(record[3]));
+	        		roomInfo.setBedrooms((int)Double.parseDouble(record[4]));
+	        		roomInfo.setBathrooms((int)Double.parseDouble(record[5]));
+	        		int type = (int)Double.parseDouble(record[6]);
+	        		if(type == 0)
+	        			roomInfo.setApt(false);
+	        		else
+	        			roomInfo.setApt(true);
+	        		type = (int)Double.parseDouble(record[7]);
+	        		if(type == 0)
+	        			roomInfo.setPrivate(false);
+	        		else
+	        			roomInfo.setPrivate(true);
+	        		type = (int)Double.parseDouble(record[8]);
+	        		if(type == 0)
+	        			roomInfo.setShared(false);
+	        		else
+	        			roomInfo.setShared(true);
+	        		roomInfo.setAccommodates(Integer.parseInt(record[9]));
+	        		roomInfo.setMinstay((int)Double.parseDouble(record[10]));
+	        	}
+	        } 
+	        csvReader.close();
+	    } 
+	    catch (Exception e) { 
+	        e.printStackTrace();
+	        
+	        System.out.println(this.getServletContext().getRealPath("/"));
+	    } 
+		
+		return roomInfos;
+	}
+	
+	public ArrayList<Location> getLocation(String apt, String privat, String share, String countBedroom,
+			String countbathroom, String countAccomodate,
+			String countMinstay, String address)
+	{
+		ArrayList<Location> locations = new ArrayList<Location>();
+		try {
+			Location location = new Location();
+			int i = 0;
+			String[] info = null;
+			String aptType = apt;
+			String privatType= privat;
+			String shareType = share;
+			String bedrooms = countBedroom;
+			String bathrooms = countbathroom;
+			String accomodate = countAccomodate;
+			String minstay = countMinstay;
+			String hostAddress = address;
+			
+			HttpClient client = HttpClientBuilder.create().build();
+			HttpGet request = new HttpGet("http://localhost:5000/get/location?apt="+aptType+"&privat="+privat+"&share="+shareType
+					+"&bedroom="+bedrooms+"&bathroom="+bathrooms+"&accommodate="+accomodate+"&minstay="+minstay+"&address="+hostAddress);
+			HttpResponse response = client.execute(request);
+
+			ResponseHandler<String> handler = new BasicResponseHandler();
+			String body = handler.handleResponse(response);
+			StringTokenizer st = new StringTokenizer(body,",");
+			while(st.hasMoreTokens()){
+				info[i] = st.nextToken();
+				i++;
+			}
+			
+			location.setLat(Double.parseDouble(info[0]));
+			location.setLng(Double.parseDouble(info[1]));
+			location.setPredict(Double.parseDouble(info[2]));
+			locations.add(location);
+		} 
+		catch (Exception e){
+			System.err.println(e.toString());
+		}
+		return locations;
+		}
+	
+}

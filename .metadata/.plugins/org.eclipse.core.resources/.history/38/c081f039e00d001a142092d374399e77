@@ -1,0 +1,49 @@
+package kr.ac.sunmoon.client.page;
+
+import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
+
+public class AirBnB_host extends VerticalPanel{
+	public AirBnB_host(){
+		super();
+	{
+		//패널생성
+		VerticalPanel vpMain = new VerticalPanel();
+		vpMain.setWidth("1024px");
+		RootPanel.get("main").add(vpMain);
+		
+		//배경화면
+		VerticalPanel hpTop = new VerticalPanel();
+		vpMain.addStyleName("hpTop");
+		vpMain.setVerticalAlignment(HorizontalPanel.ALIGN_MIDDLE);
+//		vpMain.getElement().getStyle().setBackgroundImage("url('image/back.jpg')");
+		vpMain.add(hpTop);
+		
+		//클래스화된 ButtonPanel 붙이기
+		ButtonPanel buttonPanel = new ButtonPanel();
+		buttonPanel.getElement().getStyle().setMarginTop(30, Unit.PX);
+		hpTop.add(buttonPanel);
+		
+		//클래스화된 FeaturePanel 붙이기
+		FeaturePanel featurePanel = new FeaturePanel();
+		hpTop.add(featurePanel);
+		
+		//클래스화된 SearchPanel 붙이기
+		SearchPanel searchPanel = new SearchPanel();
+		searchPanel.getElement().getStyle().setMarginTop(30, Unit.PX);
+		hpTop.add(searchPanel);
+		
+		//선긋기
+		HTML htmlLine = new HTML("<hr width=\"780px\" height=\"1px\" color=\"#767676\">");
+		htmlLine.getElement().getStyle().setMarginTop(-590, Unit.PX);
+		hpTop.add(htmlLine);
+		
+		}
+	}
+}

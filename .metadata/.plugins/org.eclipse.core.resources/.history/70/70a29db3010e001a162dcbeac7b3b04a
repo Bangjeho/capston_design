@@ -1,0 +1,42 @@
+package kr.ac.sunmoon.client.page;
+
+import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
+
+public class ButtonPanel extends HorizontalPanel 
+{
+	public ButtonPanel()
+	{
+		super();		
+		this.addStyleName("buttonPanel");
+		
+		//PrivateRoom 버튼 생성
+		Button PrivateRoom = new Button();
+		PrivateRoom.setText("PrivateRoom");
+		PrivateRoom.getElement().getStyle().setMarginLeft(230, Unit.PX);
+		PrivateRoom.getElement().getStyle().setMarginTop(0, Unit.PX);
+		PrivateRoom.getElement().getStyle().setColor("#FF5A5F");
+		PrivateRoom.getElement().getStyle().setFontSize(0.5, Unit.CM);
+		
+		//EntireHome 버튼 생성
+		Button EntireHome = new Button();
+		EntireHome.setText("EntireHome");
+		EntireHome.getElement().getStyle().setMarginTop(0, Unit.PX);
+		EntireHome.getElement().getStyle().setColor("#FF5A5F");
+		EntireHome.getElement().getStyle().setFontSize(0.5, Unit.CM);
+		
+		//SharedRoom 버튼 생성
+		Button SharedRoom = new Button();
+		SharedRoom.setText("SharedRoom");
+		SharedRoom.getElement().getStyle().setMarginTop(0, Unit.PX);
+		SharedRoom.getElement().getStyle().setColor("#FF5A5F");
+		SharedRoom.getElement().getStyle().setFontSize(0.5, Unit.CM);
+		
+		this.add(PrivateRoom);
+		this.add(EntireHome);
+		this.add(SharedRoom);
+	}
+
+}

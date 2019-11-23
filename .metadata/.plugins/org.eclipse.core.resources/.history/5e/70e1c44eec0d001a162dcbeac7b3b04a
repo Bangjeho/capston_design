@@ -1,0 +1,17 @@
+package kr.ac.sunmoon.page;
+
+
+import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
+
+public class AirBnB_host extends VerticalPanel{
+	public AirBnB_host(){
+		super();
+	{
+		VerticalPanel vpMain = new VerticalPanel();
+		vpMain.setWidth("1024px");
+		RootPanel.get("main").add(vpMain);
+
+		}
+	}
+}

@@ -1,0 +1,58 @@
+package kr.ac.sunmoon.client.page;
+
+import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.user.client.ui.DecoratorPanel;
+import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.TextBox;
+
+public class FeaturePanel extends HorizontalPanel {
+	public FeaturePanel()
+	{
+		super();
+
+		//그리드 생성
+		Grid FeatureGrid = new Grid(4, 3);
+		this.add(FeatureGrid);
+		FeatureGrid.getElement().getStyle().setMarginLeft(300, Unit.PX);
+		FeatureGrid.getElement().getStyle().setMarginTop(0, Unit.PX);
+		
+		//변수 라벨붙이기
+		Label txtBedrooms = new Label("침대 수");
+		txtBedrooms.getElement().getStyle().setFontSize(0.5, Unit.CM);
+		txtBedrooms.getElement().getStyle().setMarginTop(30, Unit.PX);
+		FeatureGrid.setWidget(0, 1, txtBedrooms);
+		Label txtBathrooms = new Label("화장실수 ");
+		txtBathrooms.getElement().getStyle().setFontSize(0.5, Unit.CM);
+		FeatureGrid.setWidget(1, 1, txtBathrooms);
+		Label txtAccommodates = new Label("수용인원");
+		txtAccommodates.getElement().getStyle().setFontSize(0.5, Unit.CM);
+		FeatureGrid.setWidget(2, 1, txtAccommodates);
+		Label txtMinstay = new Label("최소숙박");
+		txtMinstay.getElement().getStyle().setFontSize(0.5, Unit.CM);
+		FeatureGrid.setWidget(3, 1, txtMinstay);
+		FeatureGrid.getElement().getStyle().setMarginRight(70, Unit.PX);
+		
+		//변수 텍스트박스
+		TextBox boxBedrooms = new TextBox();
+		boxBedrooms.setWidth("50px");
+		boxBedrooms.getElement().getStyle().setMarginTop(30, Unit.PX);
+		boxBedrooms.getElement().getStyle().setMarginLeft(20, Unit.PX);
+		FeatureGrid.setWidget(0, 2, boxBedrooms);
+		TextBox boxBathrooms = new TextBox();
+		boxBathrooms.setWidth("50px");
+		boxBathrooms.getElement().getStyle().setMarginLeft(20, Unit.PX);
+		FeatureGrid.setWidget(1, 2, boxBathrooms);
+		TextBox boxAccommodates = new TextBox();
+		boxAccommodates.setWidth("50px");
+		boxAccommodates.getElement().getStyle().setMarginLeft(20, Unit.PX);
+		FeatureGrid.setWidget(2, 2, boxAccommodates);
+		TextBox boxMinstay = new TextBox();
+		boxMinstay.setWidth("50px");
+		boxMinstay.getElement().getStyle().setMarginLeft(20, Unit.PX);
+		FeatureGrid.setWidget(3, 2, boxMinstay);
+  }
+}

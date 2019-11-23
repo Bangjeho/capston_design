@@ -1,0 +1,41 @@
+package kr.ac.sunmoon.client.page;
+
+import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.TextBox;
+
+public class SearchPanel extends HorizontalPanel{
+
+	public SearchPanel(){
+		super();
+		//패널생성
+		HorizontalPanel hpSearch = new HorizontalPanel();
+		hpSearch.addStyleName("hpSearch");
+		hpSearch.getElement().getStyle().setMarginLeft(200, Unit.PX);
+		hpSearch.getElement().getStyle().setMarginBottom(600, Unit.PX);
+		this.add(hpSearch);
+		
+		//돋보기 사진
+		Image imgSearch = new Image();
+		imgSearch.setUrl("image/search.png");
+		imgSearch.setWidth("20px");
+		hpSearch.add(imgSearch);
+		
+		//검색창
+		TextBox txtSearch = new TextBox();
+		txtSearch.setStyleName("txtSearch");
+		hpSearch.add(txtSearch);
+		
+		//OK버튼
+		Button confirm = new Button();
+		confirm.setText("OK");
+		confirm.getElement().getStyle().setHeight(40, Unit.PX);
+		confirm.getElement().getStyle().setFontSize(0.5, Unit.CM);
+		confirm.getElement().getStyle().setColor("#FF5A5F");
+		this.add(confirm);
+	}
+
+}
