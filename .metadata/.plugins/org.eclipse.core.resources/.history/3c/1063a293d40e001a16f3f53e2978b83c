@@ -1,0 +1,14 @@
+package kr.ac.sunmoon.client;
+
+import com.google.gwt.user.client.ui.VerticalPanel;
+
+public class test_gwt_ext extends VerticalPanel{
+	public test_gwt_ext(){
+		super();
+	}
+	
+	{
+		
+		
+	}
+}

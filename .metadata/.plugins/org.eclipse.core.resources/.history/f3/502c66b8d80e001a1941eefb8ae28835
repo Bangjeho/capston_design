@@ -1,0 +1,38 @@
+package kr.ac.sunmoon.client;
+
+
+
+
+import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
+
+
+/**
+ * Entry point classes define <code>onModuleLoad()</code>.
+ */
+public class Test implements EntryPoint 
+{
+	public void onModuleLoad() 
+	{
+		VerticalPanel vpMain = new VerticalPanel();
+		vpMain.setWidth("1240px");
+		vpMain.setHeight("600px");
+		RootPanel.get().add(vpMain);
+		
+		//Ŭ����ȭ�� TopPanel ���̱�
+		TopPanel topPanel = new TopPanel();
+		vpMain.add(topPanel);
+		
+		//���߱�
+		HTML htmlLine = new HTML("<hr width=\"100%\" height=\"1px\" color=\"#767676\">");
+		htmlLine.getElement().getStyle().setMarginTop(-10, Unit.PX);
+		vpMain.add(htmlLine);
+		
+		//�̹�������
+		ImagePanel ImagePanel = new ImagePanel();
+		vpMain.add(ImagePanel);
+	}
+}

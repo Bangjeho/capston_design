@@ -1,0 +1,14 @@
+package kr.ac.sunmoon.client.page;
+
+import java.util.EventObject;
+
+import com.google.gwt.user.client.ui.PushButton;
+
+public class ButtonListenerAdapter {
+
+	public void onClick(PushButton Host, EventObject e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+}
