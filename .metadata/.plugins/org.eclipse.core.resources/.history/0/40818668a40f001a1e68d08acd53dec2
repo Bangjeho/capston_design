@@ -1,0 +1,339 @@
+package kr.ac.sunmoon.client.page;
+
+
+import java.util.ArrayList;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.DecoratorPanel;
+import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.gwtext.client.core.EventCallback;
+import com.gwtext.client.core.EventObject;
+import com.gwtext.client.core.Ext;
+import com.gwtext.client.core.ExtElement;
+import com.gwtext.client.core.Margins;
+import com.gwtext.client.core.RegionPosition;
+import com.gwtext.client.widgets.Button;
+import com.gwtext.client.widgets.Panel;
+import com.gwtext.client.widgets.TabPanel;
+import com.gwtext.client.widgets.Viewport;
+import com.gwtext.client.widgets.form.FormPanel;
+import com.gwtext.client.widgets.form.TextField;
+import com.gwtext.client.widgets.layout.BorderLayout;
+import com.gwtext.client.widgets.layout.BorderLayoutData;
+import com.gwtext.client.widgets.layout.FitLayout;
+
+import kr.ac.sunmoon.client.Service;
+import kr.ac.sunmoon.client.ServiceAsync;
+import kr.ac.sunmoon.shared.Location;
+import kr.ac.sunmoon.shared.RoomInfo; 
+
+public class AirBnB_host extends VerticalPanel{
+	 private native void initMapFromGWT(double[][] paramGeos, String[] group,
+			 int[] price, int[] minstay, int[] accomodate, String[] roomtype, double lat, double lng, double predict, int check, String countMinstay, String countAccomodate, String predictRoomType)
+	   /*-{
+	      $wnd.initMap(paramGeos, group, price, minstay, accomodate,roomtype,lat,lng,predict,check,countMinstay,countAccomodate,predictRoomType);
+	   }-*/;
+	 
+	public AirBnB_host(){
+		super();
+	}
+	{
+		Image imgAirBnB = new Image();
+		imgAirBnB.setUrl("image/airbnb.png");
+		imgAirBnB.setWidth("128px");
+        Panel panel = new Panel();
+//        panel.add(imgAirBnB);
+        panel.setBorder(false);  
+        panel.setPaddings(15);  
+        panel.setLayout(new FitLayout());  
+  
+        Panel borderPanel = new Panel();  
+        borderPanel.setLayout(new BorderLayout()); 
+//        north panel
+        Panel northPanel = new Panel();  
+        northPanel.add(imgAirBnB);
+        northPanel.setHeight(44);  
+        borderPanel.add(northPanel, new BorderLayoutData(RegionPosition.NORTH));
+        
+        //add east panel  
+        Panel eastPanel = new Panel();  
+        eastPanel.setTitle("East Side");  
+        eastPanel.setCollapsible(true);  
+        eastPanel.setWidth(400);  
+        eastPanel.setLayout(new FitLayout());  
+  
+        BorderLayoutData eastData = new BorderLayoutData(RegionPosition.EAST);  
+        eastData.setSplit(true);  
+        eastData.setMinSize(175);  
+        eastData.setMaxSize(400);  
+        eastData.setMargins(new Margins(0, 0, 5, 0));  
+  
+        borderPanel.add(eastPanel, eastData);  
+  
+        TabPanel tabPanel = new TabPanel();  
+        tabPanel.setBorder(false);  
+        tabPanel.setActiveTab(1);  
+  
+        Panel tabOne = new Panel();   
+        tabOne.setTitle("set room info");
+        
+//        grid layer
+        VerticalPanel vp = new VerticalPanel();
+		Grid grid = new Grid(6, 3);
+//		grid.getElement().getStyle().setMarginLeft(50, Unit.PX);
+		DecoratorPanel dp = new DecoratorPanel();
+		vp.add(grid);
+		dp.add(vp);
+		tabOne.add(dp);
+		
+//		label layer
+		Label roomType = new Label("방 타입: ");
+//		roomType.getElement().getStyle().setMarginLeft(20, Unit.PX);
+		grid.setWidget(0, 0, roomType);
+		
+		Label Bedrooms = new Label("침대 수: ");
+		Bedrooms.getElement().getStyle().setMarginTop(20, Unit.PX);
+//		Bedrooms.getElement().getStyle().setMarginLeft(20, Unit.PX);
+		grid.setWidget(1, 0, Bedrooms);
+		
+		Label Bathrooms = new Label("화장실 수: ");
+//		Bathrooms.getElement().getStyle().setMarginLeft(20, Unit.PX);
+		Bathrooms.getElement().getStyle().setMarginTop(20, Unit.PX);
+		grid.setWidget(2, 0, Bathrooms);
+		
+		Label Accommodates = new Label("수용인원: ");
+//		Accommodates.getElement().getStyle().setMarginLeft(20, Unit.PX);
+		Accommodates.getElement().getStyle().setMarginTop(20, Unit.PX);
+		grid.setWidget(3, 0, Accommodates);
+		
+		Label Minstay = new Label("최소숙박: ");
+//		Minstay.getElement().getStyle().setMarginLeft(20, Unit.PX);
+		Minstay.getElement().getStyle().setMarginTop(20, Unit.PX);
+		grid.setWidget(4, 0, Minstay);	
+		
+		Label address = new Label("주소: ");
+		address.getElement().getStyle().setMarginTop(20, Unit.PX);
+		grid.setWidget(5, 0, address);
+		
+//		input layer
+		final ListBox roomlist = new ListBox();
+		roomlist.setWidth("260px");
+		roomlist.addItem("집 전체");
+		roomlist.addItem("개인실");
+		roomlist.addItem("공유실");
+		
+		grid.setWidget(0, 1, roomlist);
+		
+		final TextField txtbedroom = new TextField();
+		txtbedroom.getElement().getStyle().setMarginTop(20, Unit.PX);
+		txtbedroom.setWidth("260px");
+		grid.setWidget(1, 1, txtbedroom);
+		
+		final TextField txtbathroom = new TextField();
+		txtbathroom.getElement().getStyle().setMarginTop(20, Unit.PX);
+		txtbathroom.setWidth("260px");
+		grid.setWidget(2, 1, txtbathroom);
+		
+		final TextField txtacc = new TextField();
+		txtacc.getElement().getStyle().setMarginTop(20, Unit.PX);
+		txtacc.setWidth("260px");
+		grid.setWidget(3, 1, txtacc);
+		
+		final TextField txtminstay = new TextField();
+		txtminstay.getElement().getStyle().setMarginTop(20, Unit.PX);
+		txtminstay.setWidth("260px");
+		grid.setWidget(4, 1, txtminstay);
+		
+		final TextField txtAddress = new TextField();
+		txtAddress.getElement().getStyle().setMarginTop(20, Unit.PX);
+		txtAddress.setWidth("260px");
+		grid.setWidget(5, 1, txtAddress);
+		
+//	number of etc
+		Label num_of_room = new Label("개");
+		num_of_room.getElement().getStyle().setMarginTop(20, Unit.PX);
+		num_of_room.getElement().getStyle().setMarginLeft(5, Unit.PX);
+		grid.setWidget(1, 2, num_of_room);
+		
+		Label num_of_room2 = new Label("개");
+		num_of_room2.getElement().getStyle().setMarginTop(20, Unit.PX);
+		num_of_room2.getElement().getStyle().setMarginLeft(5, Unit.PX);
+		grid.setWidget(2, 2, num_of_room2);
+		
+		Label num_of_day = new Label("일");
+		num_of_day.getElement().getStyle().setMarginTop(20, Unit.PX);
+		num_of_day.getElement().getStyle().setMarginLeft(5, Unit.PX);
+		grid.setWidget(4, 2, num_of_day);
+		
+		Label num_of_peo = new Label("명");
+		num_of_peo.getElement().getStyle().setMarginTop(20, Unit.PX);
+		num_of_peo.getElement().getStyle().setMarginLeft(5, Unit.PX);
+		grid.setWidget(3, 2,num_of_peo);
+		
+		final Button searchButton = new Button("Search");
+		searchButton.getElement().getStyle().setMarginTop(20, Unit.PX);
+		searchButton.getElement().getStyle().setMarginLeft(5, Unit.PX);
+		searchButton.setWidth("10px");
+		grid.setWidget(5, 2,searchButton);
+		
+		Label notice = new Label("※참고사항※");
+		notice.getElement().getStyle().setMarginTop(30, Unit.PX);
+		notice.getElement().getStyle().setMarginLeft(160, Unit.PX);
+		tabOne.add(notice);
+		
+		Label notice_two = new Label("ㆍ 메인 마커의 표시된 값은 예측 가격입니다.");
+		notice_two.getElement().getStyle().setMarginTop(15, Unit.PX);
+		notice_two.getElement().getStyle().setMarginLeft(70, Unit.PX);
+		Label notice_three = new Label("ㆍ 오차율은 $16 입니다.");
+		Label notice_four = new Label("ㆍ 주변 집들과 비교하여 알맞는 가격을 선정하세요!");
+		tabOne.add(notice_two);
+		tabOne.add(notice_three);
+		tabOne.add(notice_four);
+		
+		final ServiceAsync service = GWT.create(Service.class);
+		service.getRoomInfo(new AsyncCallback<ArrayList<RoomInfo>>() {
+			
+			@Override
+			public void onSuccess(ArrayList<RoomInfo> result) {
+				// TODO Auto-generated method stub
+				String room;
+				final String[] group = new String[result.size()];
+				final int[] accomodate = new int[result.size()];
+				final int[] minstay = new int[result.size()];
+				final int[] price = new int[result.size()];
+				final String[] roomtype = new String[result.size()];
+				final double[][] paramGeos = new double[result.size()][];
+				
+				for(int i=0; i<paramGeos.length; i++)
+				{
+					if(result.get(i).isApt()){
+						boolean apt = result.get(i).isApt();
+						room = String.valueOf(apt);
+						room = room.replace(room, "Entire home/apt");
+						roomtype[i] = room;
+					}
+					else if(result.get(i).isPrivate()){
+						
+						boolean privat = result.get(i).isPrivate();
+						room = String.valueOf(privat);
+						room = room.replace(room, "Private room");
+						roomtype[i] = room;
+					}							
+					else if(result.get(i).isShared()){
+						boolean share = result.get(i).isShared();
+						room = String.valueOf(share);
+						room = room.replace(room, "Shared room");
+						roomtype[i] = room;
+					}
+					
+					accomodate[i] = result.get(i).getAccommodates();
+					minstay[i] = result.get(i).getMinstay();
+					price[i] = result.get(i).getPrice();
+					group[i] = result.get(i).getGroup();
+					paramGeos[i] = new double[2];
+					paramGeos[i][0] = result.get(i).getLatitude();
+					paramGeos[i][1] = result.get(i).getLongitude();
+				}
+				txtAddress.addKeyPressListener(new EventCallback() {
+					
+					@Override
+					public void execute(EventObject e) {
+						// TODO Auto-generated method stub
+						if(e.getKey() == KeyCodes.KEY_ENTER){
+							final ExtElement element = Ext.get("mask-panel");
+							element.mask("가격 예측중..");
+							final int check = 1;
+							String apt,privat,share;
+							final String predictRoomType;
+							if(roomlist.getSelectedItemText().equals("집 전체")){
+								predictRoomType = "Entire home/apt";
+								apt = "1";
+								privat = "0";
+								share = "0";
+							}
+							else if (roomlist.getSelectedItemText().equals("개인실")){
+								predictRoomType = "Private room";
+								apt = "0";
+								privat = "1";
+								share = "0";
+							}
+							else{
+								predictRoomType = "Shared room";
+								apt = "0";
+								privat = "0";
+								share = "1";
+							}
+							String countBedroom = txtbedroom.getText();
+							String countbathroom = txtbathroom.getText();
+							final String countAccomodate = txtacc.getText();
+							final String countMinstay = txtminstay.getText();
+							String address = txtAddress.getText();
+							service.getLocation(apt,privat,share,countBedroom,
+							countbathroom,countAccomodate,countMinstay,
+							address,new AsyncCallback<ArrayList<Location>>() {
+						
+						@Override
+						public void onSuccess(ArrayList<Location> result) {
+							// TODO Auto-generated method stub
+							double lat = result.get(0).getLat();
+							double lng = result.get(0).getLng();
+							double predict = result.get(0).getPredict(); 
+							initMapFromGWT(paramGeos, group, price, minstay, accomodate, roomtype, lat, lng, predict, check,
+									countMinstay,countAccomodate,predictRoomType);
+							element.unmask();
+						}
+						@Override
+						public void onFailure(Throwable caught) {
+							// TODO Auto-generated method stub
+							
+						}
+					});
+							}
+					}
+	});
+
+				initMapFromGWT(paramGeos, group, price, minstay, accomodate, roomtype, 0, 0, 0, 0,"","","");
+			}
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+        tabPanel.add(tabOne);
+        tabPanel.activate(0);
+        eastPanel.add(tabPanel);  
+
+//      centerPanel add 
+		TabPanel centerPanel = new TabPanel();  
+		centerPanel.setDeferredRender(false);  
+		centerPanel.setActiveTab(0);  
+
+		Panel centerPanelOne = new Panel();
+		centerPanelOne.setId("mask-panel");
+      	centerPanelOne.setTitle("Map");
+      	HTML html = new HTML("<div id='map' style ='width :100%;height:863px;'></div>"); 
+        
+        centerPanelOne.add(html);
+        centerPanel.add(centerPanelOne);  
+   
+        borderPanel.add(centerPanel, new BorderLayoutData(RegionPosition.CENTER));  
+  
+        panel.add(borderPanel);  
+  
+        new Viewport(panel);  
+    }  
+
+}
+
